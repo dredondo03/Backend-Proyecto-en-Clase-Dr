@@ -8,6 +8,8 @@ class ProductController extends Controller
 {
     public function index()
     {
+        $listaProductos = Product::all();
+        return view('products.index', compact('listaProductos'));
         $motos = [
             ['id' => 1, 'nombre' => 'Honda CBR 1000RR', 'precio' => '$25,000'],
             ['id' => 2, 'nombre' => 'Yamaha R6', 'precio' => '$18,500'],

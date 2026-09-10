@@ -2,44 +2,52 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    // Listar todos los productos
     public function index()
     {
+        // Obtenemos todos los productos de la base de datos
         $listaProductos = Product::all();
-        return view('products.index', compact('listaProductos'));
-        $motos = [
-            ['id' => 1, 'nombre' => 'Honda CBR 1000RR', 'precio' => '$25,000'],
-            ['id' => 2, 'nombre' => 'Yamaha R6', 'precio' => '$18,500'],
-            ['id' => 3, 'nombre' => 'Kawasaki Ninja ZX-10R', 'precio' => '$22,000'],
-            ['id' => 4, 'nombre' => 'Ducati Panigale V4', 'precio' => '$35,000'],
-        ];
         
-        return view('products.index', compact('motos'));
+        // Retornamos la vista pasando la variable $listaProductos
+        return view('products.index', compact('listaProductos'));
     }
 
+    // Mostrar el formulario de creación
     public function create()
     {
         return view('products.create');
     }
 
+    // Guardar un nuevo producto (necesario si usas el formulario create)
+    public function store(Request $request)
+    {
+        // Aquí validarías y guardarías los datos. 
+        // Por ahora, un ejemplo básico:
+        $producto = new Product();
+        $producto->nombre = $request->nombre;
+        $producto->precio = $request->precio;
+        $producto->save();
+
+        return redirect()->route('products.index')->with('success', 'Producto creado exitosamente.');
+    }
+
+    // Mostrar un producto específico
     public function show($idProduct)
     {
-        $motos = [
-            1 => ['id' => 1, 'nombre' => 'Honda CBR 1000RR', 'precio' => '$25,000'],
-            2 => ['id' => 2, 'nombre' => 'Yamaha R6', 'precio' => '$18,500'],
-            3 => ['id' => 3, 'nombre' => 'Kawasaki Ninja ZX-10R', 'precio' => '$22,000'],
-            4 => ['id' => 4, 'nombre' => 'Ducati Panigale V4', 'precio' => '$35,000'],
-        ];
-        
-        $moto = $motos[(int)$idProduct] ?? null;
-        
-        if (!$moto) {
+        // Buscamos el producto por ID en la base de datos
+        $producto = Product::find($idProduct);
+
+        // Si no existe, lanzamos error 404
+        if (!$producto) {
             abort(404);
         }
-        
-        return view('products.show', compact('moto'));
+
+        // Retornamos la vista show con la variable $producto
+        return view('products.show', compact('producto'));
     }
 }

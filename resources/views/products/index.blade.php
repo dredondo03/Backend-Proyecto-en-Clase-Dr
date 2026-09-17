@@ -1,17 +1,6 @@
-@extends('layouts.app') {{-- O 'layout.app' según el nombre exacto de tu carpeta --}}
+@extends('layout.app') {{-- O 'layout.app' según el nombre exacto de tu carpeta --}}
 
 @section('content')
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="/" class="nav-logo">🏍️ Motos Store</a>
-            <ul class="nav-menu">
-                <li><a href="/">Inicio</a></li>
-                <li><a href="{{ route('products.index') }}">Productos</a></li>
-                <li><a href="{{ route('products.create') }}">Agregar Moto</a></li>
-            </ul>
-        </div>
-    </nav>
-
     <div class="container">
         <h1>Nuestras Motos</h1>
         
